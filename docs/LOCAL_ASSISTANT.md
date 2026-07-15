@@ -49,6 +49,12 @@ You can give a harness this request:
 
 Image generation, model inference, documents, chat history, LoRAs, and agent profiles are local. When **Web search** is enabled, only the current question is sent to the configured search provider. In Studio, open the gear icon, choose a provider under **Web research**, and enter a key if needed. Manually entered keys remain on the local machine with owner-only file permissions; the browser receives only the configured/not-configured status. Never commit or paste keys into an issue.
 
+## Optional Goose agent harness
+
+Selecting a local agent can run it through Goose instead of merely adding its prompt to the chat. The Studio invokes a short-lived `goose run --no-profile` process using the selected local model and injects only that agent's declarative profile, `SKILL.md`, rules, workflows, current chat context, and explicitly prepared local tool results. It deliberately does **not** expose Goose's shell, computer, browser, or sending extensions to the model.
+
+This is a safe orchestration boundary, not an autonomous action engine: an agent must never claim that it sent mail or changed files. Integrations that need a local fact (for example an unread-mail count) should be implemented as a narrowly scoped, read-only Studio connector and its result passed to the harness. Configure the local Goose provider and model with `BONSAI_GOOSE_PROVIDER` and `BONSAI_GOOSE_MODEL` before launching Studio when the defaults do not match your installation.
+
 The Studio offers **Automatisch** (Tavily → Brave → public fallback), **Tavily**, **Brave Search**, and **Öffentliche Fallback-Suche** in Settings. For unattended or scripted launches, export one or both keys before starting the Studio:
 
 ```bash
