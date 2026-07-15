@@ -1,4 +1,10 @@
-# Bonsai Image Demo
+# Bonsai Local Studio
+
+> Community fork of [PrismML-Eng/Bonsai-Image-Demo](https://github.com/PrismML-Eng/Bonsai-Image-Demo), maintained by [ProfEngel](https://github.com/ProfEngel). It retains the upstream Apache-2.0 license and attribution. This is not an official PrismML release.
+
+**Bonsai Local Studio** combines local Bonsai Image generation with a local Bonsai-27B chat, prompt refinement, optional local vision endpoint, local document extraction, chat history, LoRA controls, and source-linked web research. It never ships models, LoRAs, prompts, chats, documents, API keys, or user agent profiles.
+
+This fork is designed and tested with Bonsai models. Other OpenAI-compatible local servers can be entered in Settings, but are not the supported default.
 
 <p align="center">
   <img src="./assets/bonsai-logo.svg" width="280" alt="Bonsai Image">
@@ -46,6 +52,32 @@ Set-ExecutionPolicy -Scope CurrentUser RemoteSigned   # one-time; PowerShell blo
 ```
 
 If something doesn't work on Windows, see [scripts/windows.md](scripts/windows.md) for prereqs and the FAQ of known failure modes (execution policy, missing git, old NVIDIA driver, vcredist, ports in use, OOM at 1024x1024, etc).
+
+## Local chat and prompt optimizer
+
+The image model and the text model are separate local processes. The Studio is preconfigured for an OpenAI-compatible local endpoint at `http://127.0.0.1:8081/v1`.
+
+On an Apple-Silicon Mac, start Bonsai-27B through MLX in a second terminal:
+
+```bash
+python3 -m pip install -U mlx-lm
+mlx_lm.server --model prism-ml/Bonsai-27B-mlx-1bit --port 8081
+```
+
+Then start the Studio as usual with `./scripts/serve.sh` and open `http://127.0.0.1:3000`. The Settings page allows an optional, separately started vision endpoint for image attachments. On Windows, run Bonsai-27B in a GGUF/llama.cpp-compatible server and enter its local endpoint and model name in Settings.
+
+For a reproducible local installation, we recommend asking a capable coding harness to execute and verify the setup rather than pasting arbitrary commands into a terminal. Examples include ChatGPT Work, Claude Work, Antigravity, Goose, and OpenCode. See [the harness installation guide](docs/LOCAL_ASSISTANT.md) for a ready-to-use request and the privacy boundaries.
+
+## What this fork adds
+
+- Image / Chat / Settings navigation in one local studio
+- Bonsai-27B chat with Markdown, local text and PDF extraction, image attachment previews, optional vision routing, and deletable browser-local history
+- Prompt optimizer driven by the local Bonsai-27B endpoint
+- Collapsible, weighted local LoRA selection (no LoRAs are bundled)
+- Curated local agent profiles from `~/.bonsai-studio/agents` (source files are never executed)
+- Source-linked optional web research with explicit fallback disclosure
+
+Read [docs/LOCAL_ASSISTANT.md](docs/LOCAL_ASSISTANT.md) before enabling external web research: only the active search question leaves the machine; local documents, chats, models, LoRAs, and agent data remain local.
 
 ## Download models
 

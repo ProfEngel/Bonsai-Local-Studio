@@ -247,15 +247,19 @@ else
     # bfl-klein-bf16 is hidden from the picker entirely via the
     # scripts.local_backend_mac shim (which overrides /backends).
     # No env flag needed for that — see _backend_module above.
-    MFLUX_STUDIO_DEFAULT_BACKEND="$_default_backend" \
-    BONSAI_SUPPORTED_FAMILIES="$_supported_families" \
-    MFLUX_STUDIO_BAKED_MODEL_PATH="$DEMO_DIR/models/bonsai-image-4B-ternary-mlx" \
-    MFLUX_STUDIO_BAKED_BINARY_MODEL_PATH="$DEMO_DIR/models/bonsai-image-4B-binary-mlx" \
-    MFLUX_STUDIO_TE_4BIT=true \
-    MFLUX_STUDIO_FORCE_DISABLE_GPU=true \
-        "$DEMO_DIR/.venv/bin/uvicorn" "$_backend_module" \
-            --port "$BACKEND_PORT" \
-            > "$BACKEND_LOG" 2>&1 &
+    # Run from the demo root so the `scripts.local_backend_mac` module is
+    # importable even when the Desktop launcher is opened from another cwd.
+    (cd "$DEMO_DIR" \
+        && MFLUX_STUDIO_DEFAULT_BACKEND="$_default_backend" \
+           BONSAI_SUPPORTED_FAMILIES="$_supported_families" \
+           MFLUX_STUDIO_BAKED_MODEL_PATH="$DEMO_DIR/models/bonsai-image-4B-ternary-mlx" \
+           MFLUX_STUDIO_BAKED_BINARY_MODEL_PATH="$DEMO_DIR/models/bonsai-image-4B-binary-mlx" \
+           MFLUX_STUDIO_LORA_DIR="$DEMO_DIR/loras" \
+           MFLUX_STUDIO_TE_4BIT=true \
+           MFLUX_STUDIO_FORCE_DISABLE_GPU=true \
+             "$DEMO_DIR/.venv/bin/uvicorn" "$_backend_module" \
+                 --port "$BACKEND_PORT" \
+                 > "$BACKEND_LOG" 2>&1) &
     BACKEND_PID=$!
 fi
 

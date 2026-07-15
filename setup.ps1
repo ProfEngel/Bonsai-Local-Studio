@@ -328,7 +328,8 @@ function Invoke-CloneVendor {
     if ($LASTEXITCODE -ne 0) { err "git clone $Name failed."; exit 1 }
 }
 
-Invoke-CloneVendor -Name 'image-studio' -Url 'https://github.com/PrismML-Eng/image-studio.git'
+$StudioRepo = if ($env:BONSAI_IMAGE_STUDIO_REPO) { $env:BONSAI_IMAGE_STUDIO_REPO } else { 'https://github.com/ProfEngel/Bonsai-Local-Studio-Core.git' }
+Invoke-CloneVendor -Name 'image-studio' -Url $StudioRepo
 Invoke-CloneVendor -Name 'mflux-prism'  -Url 'https://github.com/PrismML-Eng/mflux-prism.git'
 
 # image-studio's pyproject still pins mflux to a git rev -- same patch as

@@ -238,7 +238,8 @@ _clone_vendor() {
 # (dynamic /backends, 32-aligned presets, backend_gpu packaging) was merged
 # 2026-05-14, so the build-system + resolutions.ts patches further below are
 # no longer needed at clone time.
-_clone_vendor image-studio https://github.com/PrismML-Eng/image-studio.git
+: "${BONSAI_IMAGE_STUDIO_REPO:=https://github.com/ProfEngel/Bonsai-Local-Studio-Core.git}"
+_clone_vendor image-studio "$BONSAI_IMAGE_STUDIO_REPO"
 _clone_vendor mflux-prism  https://github.com/PrismML-Eng/mflux-prism.git
 
 # image-studio's upstream still pins mflux to a git rev, which conflicts with

@@ -33,6 +33,10 @@ outputs/
 *.zip
 
 .serve-logs/
+logs/
+loras/
+graphify-out/
+.DS_Store
 
 # deps cloned by setup.sh
 vendor/
