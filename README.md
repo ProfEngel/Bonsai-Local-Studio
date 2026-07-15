@@ -64,7 +64,7 @@ python3 -m pip install -U mlx-lm
 mlx_lm.server --model prism-ml/Bonsai-27B-mlx-1bit --port 8081
 ```
 
-Then start the Studio as usual with `./scripts/serve.sh` and open `http://127.0.0.1:3000`. The Settings page allows an optional, separately started vision endpoint for image attachments. On Windows, run Bonsai-27B in a GGUF/llama.cpp-compatible server and enter its local endpoint and model name in Settings.
+Then start the Studio as usual with `./scripts/serve.sh` and open `http://127.0.0.1:3000`. When **Bonsai-27B 2Bit with Vision** is selected, Settings uses the paired local text (`:8081`) and vision (`:8080`) endpoints automatically and hides the redundant endpoint/model fields. Choose **Custom model / vision server** only for a different OpenAI-compatible setup. On Windows, run Bonsai-27B in a GGUF/llama.cpp-compatible server and enter its local endpoint and model name in Settings.
 
 For a reproducible local installation, we recommend asking a capable coding harness to execute and verify the setup rather than pasting arbitrary commands into a terminal. Examples include ChatGPT Work, Claude Work, Antigravity, Goose, and OpenCode. See [the harness installation guide](docs/LOCAL_ASSISTANT.md) for a ready-to-use request and the privacy boundaries.
 
