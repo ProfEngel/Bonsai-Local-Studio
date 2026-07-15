@@ -48,3 +48,13 @@ You can give a harness this request:
 ## Privacy and external research
 
 Image generation, model inference, documents, chat history, LoRAs, and agent profiles are local. When **Web search** is enabled, only the current question is sent to the configured search provider. Keep API keys in local environment variables or the operating system keychain; never commit or paste them into an issue.
+
+The Studio offers **Automatisch** (Tavily → Brave → public fallback), **Tavily**, **Brave Search**, and **Öffentliche Fallback-Suche** in Settings. Export one or both keys before starting the Studio:
+
+```bash
+export TAVILY_API_KEY='…'        # optional, preferred for source-grounded research
+export BRAVE_SEARCH_API_KEY='…'  # optional, independent fallback
+./scripts/serve.sh
+```
+
+An explicitly selected provider without its local key fails clearly; it never silently substitutes a different provider. The public fallback remains available for key-free experiments, but is deliberately shown as such in the answer.

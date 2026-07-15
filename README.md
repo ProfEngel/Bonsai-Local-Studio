@@ -75,7 +75,7 @@ For a reproducible local installation, we recommend asking a capable coding harn
 - Prompt optimizer driven by the local Bonsai-27B endpoint
 - Collapsible, weighted local LoRA selection (no LoRAs are bundled)
 - Curated local agent profiles from `~/.bonsai-studio/agents` (source files are never executed)
-- Source-linked optional web research with explicit fallback disclosure
+- Source-linked optional web research: Tavily, Brave Search, or transparent public fallback
 
 Read [docs/LOCAL_ASSISTANT.md](docs/LOCAL_ASSISTANT.md) before enabling external web research: only the active search question leaves the machine; local documents, chats, models, LoRAs, and agent data remain local.
 
