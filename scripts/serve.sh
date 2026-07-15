@@ -269,8 +269,13 @@ fi
 # without it, the HMR WS client retries forever and crashes hydration before
 # onClick handlers attach, leaving buttons inert.
 if [ "${BONSAI_FRONTEND_PROD:-0}" = "1" ]; then
-    if [ ! -d "$FRONTEND_DIR/.next" ]; then
-        step "Building frontend (production, BONSAI_FRONTEND_PROD=1) — first run only ..."
+    _build_id="$FRONTEND_DIR/.next/BUILD_ID"
+    _frontend_changed=""
+    if [ -f "$_build_id" ]; then
+        _frontend_changed=$(find "$FRONTEND_DIR/app" "$FRONTEND_DIR/components" "$FRONTEND_DIR/lib" -type f -newer "$_build_id" -print -quit 2>/dev/null || true)
+    fi
+    if [ ! -f "$_build_id" ] || [ "$FRONTEND_DIR/package.json" -nt "$_build_id" ] || [ -n "$_frontend_changed" ]; then
+        step "Building frontend (production, source changes detected) ..."
         (cd "$FRONTEND_DIR" \
             && PATH="$VENV_BIN:$PATH" \
                NEXT_PUBLIC_BACKEND_URL="http://127.0.0.1:$BACKEND_PORT" \
@@ -279,11 +284,11 @@ if [ "${BONSAI_FRONTEND_PROD:-0}" = "1" ]; then
             exit 1
         }
     else
-        info "frontend already built (.next/ present) — skipping rebuild"
+        info "frontend build is current — skipping rebuild"
     fi
-    _frontend_cmd="npm start"
+    _frontend_cmd="npm start -- --hostname 127.0.0.1"
 else
-    _frontend_cmd="npm run dev"
+    _frontend_cmd="npm run dev -- --hostname 127.0.0.1"
 fi
 
 step "Starting frontend on :$FRONTEND_PORT ($_frontend_cmd)"
